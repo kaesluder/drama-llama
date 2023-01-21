@@ -1,0 +1,11 @@
+{
+    "workbench.colorCustomizations": {
+        "tab.activeBorderTop": "#ff0000",
+        "[Monokai]": {
+            "tab.activeBorderTop": "#ff0000"
+        },
+        "activityBar.background": "#07323D",
+        "titleBar.activeBackground": "#0A4655",
+        "titleBar.activeForeground": "#F4FCFE"
+    }
+}

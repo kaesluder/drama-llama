@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import {DateTime} from 'luxon';
 
-
+declare global {
+    interface Window {
+        electronAPI:any;
+    }
+}
 const App = function () {
 
     const [fooState, setFooState] = useState('');

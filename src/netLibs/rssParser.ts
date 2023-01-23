@@ -4,7 +4,7 @@ import * as R from "ramda";
 import { Feed } from "./feedDataClasses";
 
 /**
- * convertDate returns unix milisecond date from RFC2822-formatted
+ * convertDate returns unix millisecond date from RFC2822-formatted
  * message date.
  *
  * @param {string} stringDate
@@ -36,4 +36,4 @@ function parseRSS(xmlData: string) {
   return feedData;
 }
 
-export { parseRSS };
+export { parseRSS, convertDate };

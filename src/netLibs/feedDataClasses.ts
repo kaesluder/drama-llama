@@ -1,6 +1,3 @@
-import { DateTime as Luxon } from "luxon";
-('import * as R from "ramda";');
-
 class Feed {
   // Drama Llama internal fields
   id: number = undefined;

@@ -1,4 +1,3 @@
-import Axios from "axios";
 import { XMLParser } from "fast-xml-parser";
 import { DateTime as Luxon } from "luxon";
 import * as R from "ramda";

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { convertDate, parseRSS, functionalParseRSS } from "./rssParser";
+import { convertDate, parseRSS } from "./rssParser";
 import { readFileSync } from "fs";
 import { Feed } from "./feedDataClasses";
 import * as R from "ramda";
@@ -25,7 +25,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
   });
 
   test("functionalParse", () => {
-    const parsed = functionalParseRSS(EXAMPLE_RSS);
+    const parsed: Feed = parseRSS(EXAMPLE_RSS);
     expect(R.prop("title")(parsed)).toBe("Liftoff News");
     expect(R.prop("pubDate")(parsed)).toBe(1055217600000);
   });

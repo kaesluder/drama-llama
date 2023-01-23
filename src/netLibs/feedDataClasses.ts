@@ -1,16 +1,17 @@
-class Feed {
+interface Feed {
   // Drama Llama internal fields
-  id: number = undefined;
+  // id: set by database
+  id?: number;
   // feedType: used to identify the parser used
-  feedType: string = undefined;
+  feedType: string;
 
   // feed meta-information
-  title: string = undefined;
-  link: string = undefined;
-  description: string = undefined;
-  language: string = undefined;
-  pubDate: number = undefined;
-  generator: string = undefined;
+  title: string;
+  link: string;
+  description?: string;
+  language?: string;
+  pubDate?: number;
+  generator?: string;
 }
 
 export { Feed };

@@ -19,15 +19,15 @@ const convertDate = function (stringDate: string): number {
  * @param {string} xmlData
  * returns JS object representing everything under <channel>
  */
-const parseRSS = function (xmlData: string): Feed {
+const iterativeParseRSS = function (xmlData: string): Feed {
   const parser = new XMLParser();
   const rawXML = parser.parse(xmlData).rss.channel;
-  const feedData = new Feed();
+  const feedData = <Feed>{};
   feedData.feedType = "RSS";
   feedData.pubDate = convertDate(rawXML.pubDate);
   const properties: string[] = [
     "title",
-    "link",
+    "linka",
     "description",
     "language",
     "generator",
@@ -36,7 +36,7 @@ const parseRSS = function (xmlData: string): Feed {
   return feedData;
 };
 
-const functionalParseRSS = function (xmlData: string) {
+const parseRSS = function (xmlData: string): Feed {
   const parser = new XMLParser();
   const rawXML = parser.parse(xmlData).rss.channel;
   const properties: string[] = [
@@ -48,7 +48,7 @@ const functionalParseRSS = function (xmlData: string) {
   ];
 
   // build a new feed object
-  // pickAll: copy all fields in properties
+  // pickAll: copy all fields in the list, properties
   // assoc: set the feedType to RSS
   // timestamp: convert RFC2822 date to unix milliseconds
   const timestamp = R.assoc("pubDate", convertDate(R.prop("pubDate", rawXML)));
@@ -57,7 +57,7 @@ const functionalParseRSS = function (xmlData: string) {
     R.assoc("feedType", "RSS"),
     timestamp
   );
-  return <Feed>transformerPipe(rawXML);
+  return transformerPipe(rawXML) as Feed;
 };
 
-export { parseRSS, convertDate, functionalParseRSS };
+export { parseRSS, convertDate, iterativeParseRSS };

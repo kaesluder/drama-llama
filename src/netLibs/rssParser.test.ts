@@ -12,8 +12,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
   });
 
   test("construct new Feed", () => {
-    const testFeed = new Feed();
-    // expect(testFeed.title).toBe("Liftoff News");
-    console.log(testFeed);
+    const testFeed = parseRSS(EXAMPLE_RSS);
+    expect(testFeed.feedType).toBe("RSS");
   });
 });

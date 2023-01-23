@@ -3,8 +3,14 @@ import { DateTime as Luxon } from "luxon";
 import * as R from "ramda";
 import { Feed } from "./feedDataClasses";
 
-const convertDate = function (isoDate: string) {
-  return Luxon.fromISO(isoDate).valueOf();
+/**
+ * convertDate returns unix milisecond date from RFC2822-formatted
+ * message date.
+ *
+ * @param {string} stringDate
+ */
+const convertDate = function (stringDate: string): number {
+  return Luxon.fromRFC2822(stringDate).valueOf();
 };
 
 /**
@@ -17,7 +23,7 @@ function parseRSS(xmlData: string) {
   const parser = new XMLParser();
   const rawXML = parser.parse(xmlData).rss.channel;
   const feedData = new Feed();
-  feedData.feedType = "rss";
+  feedData.feedType = "RSS";
   feedData.pubDate = convertDate(rawXML.pubDate);
   const properties: string[] = [
     "title",

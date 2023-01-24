@@ -1,12 +1,14 @@
 import { XMLParser } from "fast-xml-parser";
 import { DateTime as Luxon } from "luxon";
 import * as R from "ramda";
-import { Feed } from "./feedDataClasses";
+import { Feed, Item } from "./feedDataClasses";
+import { randomUUID } from "crypto";
 
 /**
  * convertDate returns unix millisecond date from RFC2822-formatted
  * message date.
  *
+ * Returns NaN if pubDate can't be parsed
  * @param {string} stringDate
  */
 const convertDate = function (stringDate: string): number {
@@ -19,23 +21,6 @@ const convertDate = function (stringDate: string): number {
  * @param {string} xmlData
  * returns JS object representing everything under <channel>
  */
-const iterativeParseRSS = function (xmlData: string): Feed {
-  const parser = new XMLParser();
-  const rawXML = parser.parse(xmlData).rss.channel;
-  const feedData = <Feed>{};
-  feedData.feedType = "RSS";
-  feedData.pubDate = convertDate(rawXML.pubDate);
-  const properties: string[] = [
-    "title",
-    "linka",
-    "description",
-    "language",
-    "generator",
-  ];
-  properties.map((p: string) => Reflect.set(feedData, p, rawXML[p]));
-  return feedData;
-};
-
 const parseRSS = function (xmlData: string): Feed {
   const parser = new XMLParser();
   const rawXML = parser.parse(xmlData).rss.channel;
@@ -60,4 +45,32 @@ const parseRSS = function (xmlData: string): Feed {
   return transformerPipe(rawXML) as Feed;
 };
 
-export { parseRSS, convertDate, iterativeParseRSS };
+/**
+ * parseRSSItems converts rss xml into a list of Item objects.
+ *
+ * @param {string} xmlData
+ * returns JS object representing everything under <channel>
+ */
+const parseRSSItems = function (xmlData: string): Item[] {
+  const parser = new XMLParser();
+  const rawItems = parser.parse(xmlData).rss.channel.item;
+  return rawItems.map(itemBuilder);
+};
+
+/**
+ * itemBuilder creates an Item object from JS object. Returns data as Item.
+ * Converts pubDate to unix timestamp and creates a random UUID for
+ * empty GUID.
+ *
+ * @param rawItem
+ */
+const itemBuilder = function (rawItem: object): Item {
+  const properties = ["title", "link", "description", "author"];
+  const timestamp = R.assoc("pubDate", convertDate(R.prop("pubDate", rawItem)));
+  const guid = R.assoc("guid", R.or(R.prop("guid", rawItem), randomUUID()));
+  const transformerPipe = R.pipe(R.pickAll(properties), timestamp, guid);
+
+  return transformerPipe(rawItem) as Item;
+};
+
+export { parseRSS, convertDate, parseRSSItems, itemBuilder };

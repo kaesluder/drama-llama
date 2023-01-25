@@ -1,7 +1,7 @@
 import { XMLParser } from "fast-xml-parser";
 import { DateTime as Luxon } from "luxon";
 import * as R from "ramda";
-import { Feed, Item } from "./feedDataClasses";
+import { Feed, genFeedID, Item } from "./feedDataClasses";
 import { randomUUID } from "crypto";
 
 /**
@@ -52,9 +52,11 @@ const parseRSS = function (xmlData: string): Feed {
  * returns JS object representing everything under <channel>
  */
 const parseRSSItems = function (xmlData: string): Item[] {
+  const feed: Feed = parseRSS(xmlData);
+  const feedID: string = genFeedID(feed);
   const parser = new XMLParser();
   const rawItems = parser.parse(xmlData).rss.channel.item;
-  return rawItems.map(itemBuilder);
+  return rawItems.map(R.partial(itemBuilder, [feedID]));
 };
 
 /**
@@ -64,11 +66,18 @@ const parseRSSItems = function (xmlData: string): Item[] {
  *
  * @param rawItem
  */
-const itemBuilder = function (rawItem: object): Item {
+const itemBuilder = function (feedID: string, rawItem: object): Item {
   const properties = ["title", "link", "description", "author"];
   const timestamp = R.assoc("pubDate", convertDate(R.prop("pubDate", rawItem)));
   const guid = R.assoc("guid", R.or(R.prop("guid", rawItem), randomUUID()));
-  const transformerPipe = R.pipe(R.pickAll(properties), timestamp, guid);
+  // TODO: refactor with R.mergeLeft
+  const transformerPipe = R.pipe(
+    R.pickAll(properties),
+    timestamp,
+    guid,
+    R.assoc("feedID", feedID),
+    R.assoc("type", "item")
+  );
 
   return transformerPipe(rawItem) as Item;
 };

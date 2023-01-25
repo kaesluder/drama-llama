@@ -1,7 +1,9 @@
+import * as R from "ramda";
+
 interface Feed {
   // Drama Llama internal fields
   // id: set by database
-  id?: number;
+  _id?: string;
   // feedType: used to identify the parser used
   feedType: string;
 
@@ -16,8 +18,9 @@ interface Feed {
 
 interface Item {
   // Drama Llama internal fields
-  id?: number;
-  feedID?: number;
+  _id?: string;
+  feedID?: string;
+  type: string;
 
   // RSS fields
 
@@ -31,4 +34,9 @@ interface Item {
   source?: string; //
 }
 
-export { Feed, Item };
+const genFeedID = function (feed: Feed) {
+  const title = feed.title?.toLowerCase().replace(" ", "-") ?? feed.link;
+  return `/feed/${title}`;
+};
+
+export { Feed, Item, genFeedID };

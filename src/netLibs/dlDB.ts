@@ -2,7 +2,9 @@ import PouchDB from "pouchdb";
 import { Feed, Item } from "./feedDataClasses";
 import * as R from "ramda";
 
-const database = new PouchDB("testDB");
+const DB_DIR = "/tmp/dldbtest";
+
+const database = new PouchDB(DB_DIR);
 
 const saveFeed = function (feed: Feed) {
   const id = feed.title;

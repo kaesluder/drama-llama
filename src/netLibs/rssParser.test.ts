@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { convertDate, itemBuilder, parseRSS, parseRSSItems } from "./rssParser";
 import { readFileSync } from "fs";
-import { Feed, Item } from "./feedDataClasses";
+import { Feed, Item, genFeedID } from "./feedDataClasses";
 import * as R from "ramda";
 
 const EXAMPLE_RSS = readFileSync("test-data/rss2sample.xml").toString();
@@ -60,5 +60,17 @@ describe("Testing parsing of rss from text string and creation of feed and item 
     const items = parseRSSItems(EXAMPLE_RSS);
     expect(items[0].title).toBe("Star City");
     expect(items.length).toBe(4);
+    expect(items[0].feedID).toBe("/feed/liftoff-news");
+    expect(items[0].type).toBe("item");
+  });
+
+  test("test generation of feed id from title", () => {
+    const parsed = parseRSS(EXAMPLE_RSS);
+    expect(genFeedID(parsed)).toBe("/feed/liftoff-news");
+  });
+
+  test("test generation of feed id: unknown title", () => {
+    const parsed: Feed = { feedType: "RSS", link: "https://www.example.com/" };
+    expect(genFeedID(parsed)).toBe("/feed/https://www.example.com/");
   });
 });

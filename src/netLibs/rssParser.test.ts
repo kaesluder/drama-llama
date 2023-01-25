@@ -51,7 +51,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
       pubDate: "Mon, 04 Nov 1985 19:53:20 EST",
     };
     const parsed: Item = itemBuilder(testItem);
-    console.log(parsed.guid);
+    //console.log(parsed.guid);
     expect(parsed.guid).toMatch(
       /^[a-f0-9]{8,}-[a-f0-9]{4,}-[a-f0-9]{4,}-[a-f0-9]{4,}-[a-f0-9]{12,}/
     );
@@ -61,6 +61,6 @@ describe("Testing parsing of rss from text string and creation of feed and item 
     const items = parseRSSItems(EXAMPLE_RSS);
     expect(items[0].title).toBe("Star City");
     expect(items.length).toBe(4);
-    console.log(items);
+    //console.log(items);
   });
 });

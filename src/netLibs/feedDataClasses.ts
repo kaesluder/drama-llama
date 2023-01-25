@@ -4,6 +4,7 @@ interface Feed {
   id?: number;
   // feedType: used to identify the parser used
   feedType: string;
+  datetimeChecked?: number;
 
   // feed meta-information
   title: string;
@@ -18,6 +19,9 @@ interface Item {
   // Drama Llama internal fields
   id?: number;
   feedID?: number;
+  datetimeChecked?: number;
+  read?: boolean;
+  pinned?: boolean;
 
   // RSS fields
 

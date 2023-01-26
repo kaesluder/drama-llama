@@ -49,7 +49,8 @@ const genFeedID = function (feed: Feed) {
 const genItemID = function (item: Item) {
   let title = item.title ?? "unknown-item-title";
   title = R.toLower(R.replace(/\W+/g, "-", title));
-  return `/item${item.feedID}/${title}/${item.guid}`;
+  const modFeed = item.feedID.replace("/feed", "");
+  return `/item${modFeed}/${title}/${item.guid}`;
 };
 
 export { Feed, Item, genFeedID, genItemID };

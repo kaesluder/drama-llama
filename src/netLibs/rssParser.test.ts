@@ -77,7 +77,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
   test("extract list of items from xml string", () => {
     const items = parseRSSItems(EXAMPLE_RSS);
     expect(genItemID(items[0])).toBe(
-      "/item/feed/liftoff-news/star-city/http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
+      "/item/liftoff-news/star-city/http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
     );
     console.log(items.map(genItemID));
   });

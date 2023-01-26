@@ -36,4 +36,9 @@ const getAllDocs = function () {
   return database.allDocs({ include_docs: true });
 };
 
+const mergeWithPartial = function (full: object, partial: object) {
+  // make sure that partial doesn't have _rev and merge
+  const newRecord: object = { ...full, ...R.dissoc("_rev", partial) };
+};
+
 export { saveFeed, getAllDocs, saveItems, database };

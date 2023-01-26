@@ -40,6 +40,7 @@ const parseRSS = function (xmlData: string): Feed {
   const transformerPipe = R.pipe(
     R.pickAll(properties),
     R.assoc("feedType", "RSS"),
+    R.assoc("type", "feed"),
     timestamp
   );
   return transformerPipe(rawXML) as Feed;
@@ -64,20 +65,20 @@ const parseRSSItems = function (xmlData: string): Item[] {
  * Converts pubDate to unix timestamp and creates a random UUID for
  * empty GUID.
  *
+ * @param feedID
  * @param rawItem
  */
 const itemBuilder = function (feedID: string, rawItem: object): Item {
   const properties = ["title", "link", "description", "author"];
-  const timestamp = R.assoc("pubDate", convertDate(R.prop("pubDate", rawItem)));
-  const guid = R.assoc("guid", R.or(R.prop("guid", rawItem), randomUUID()));
   // TODO: refactor with R.mergeLeft
-  const transformerPipe = R.pipe(
-    R.pickAll(properties),
-    timestamp,
-    guid,
-    R.assoc("feedID", feedID),
-    R.assoc("type", "item")
-  );
+  const newProps: object = {
+    pubDate: convertDate(R.prop("pubDate", rawItem)),
+    guid: R.or(R.prop("guid", rawItem), randomUUID()),
+    feedID: feedID,
+    type: "item",
+  };
+  // @ts-ignore
+  const transformerPipe = R.pipe(R.pickAll(properties), R.mergeLeft(newProps));
 
   return transformerPipe(rawItem) as Item;
 };

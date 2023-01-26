@@ -6,6 +6,7 @@ interface Feed {
   _id?: string;
   // feedType: used to identify the parser used
   feedType: string;
+  type: string;
 
   // feed meta-information
   title: string;
@@ -35,8 +36,20 @@ interface Item {
 }
 
 const genFeedID = function (feed: Feed) {
-  const title = feed.title?.toLowerCase().replace(" ", "-") ?? feed.link;
+  let title = "";
+  if (feed.title) {
+    title = R.toLower(R.replace(/\W+/g, "-", feed.title));
+  } else {
+    title = feed.link;
+  }
+
   return `/feed/${title}`;
 };
 
-export { Feed, Item, genFeedID };
+const genItemID = function (item: Item) {
+  let title = item.title ?? "unknown-item-title";
+  title = R.toLower(R.replace(/\W+/g, "-", title));
+  return `/item${item.feedID}/${title}/${item.guid}`;
+};
+
+export { Feed, Item, genFeedID, genItemID };

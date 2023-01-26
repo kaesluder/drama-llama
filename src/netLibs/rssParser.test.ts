@@ -1,7 +1,7 @@
 import { describe, expect, test } from "@jest/globals";
 import { convertDate, itemBuilder, parseRSS, parseRSSItems } from "./rssParser";
 import { readFileSync } from "fs";
-import { Feed, Item, genFeedID } from "./feedDataClasses";
+import { Feed, Item, genFeedID, genItemID } from "./feedDataClasses";
 import * as R from "ramda";
 
 const EXAMPLE_RSS = readFileSync("test-data/rss2sample.xml").toString();
@@ -38,7 +38,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
       author: "a test author",
       pubDate: "Mon, 04 Nov 1985 19:53:20 EST",
     };
-    const parsed: Item = itemBuilder(testItem);
+    const parsed: Item = itemBuilder("test", testItem);
     expect(parsed.title).toBe("title");
   });
 
@@ -50,7 +50,7 @@ describe("Testing parsing of rss from text string and creation of feed and item 
       author: "a test author",
       pubDate: "Mon, 04 Nov 1985 19:53:20 EST",
     };
-    const parsed: Item = itemBuilder(testItem);
+    const parsed: Item = itemBuilder("test", testItem);
     expect(parsed.guid).toMatch(
       /^[a-f0-9]{8,}-[a-f0-9]{4,}-[a-f0-9]{4,}-[a-f0-9]{4,}-[a-f0-9]{12,}/
     );
@@ -70,7 +70,15 @@ describe("Testing parsing of rss from text string and creation of feed and item 
   });
 
   test("test generation of feed id: unknown title", () => {
+    // @ts-ignore
     const parsed: Feed = { feedType: "RSS", link: "https://www.example.com/" };
     expect(genFeedID(parsed)).toBe("/feed/https://www.example.com/");
+  });
+  test("extract list of items from xml string", () => {
+    const items = parseRSSItems(EXAMPLE_RSS);
+    expect(genItemID(items[0])).toBe(
+      "/item/feed/liftoff-news/star-city/http://liftoff.msfc.nasa.gov/2003/06/03.html#item573"
+    );
+    console.log(items.map(genItemID));
   });
 });

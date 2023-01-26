@@ -1,18 +1,23 @@
 import { Feed, Item } from "./feedDataClasses";
 import * as R from "ramda";
-import { saveFeed, database, getAllDocs } from "./dlDB";
+import { saveFeed, saveItems, database, getAllDocs } from "./dlDB";
 import { readFileSync } from "fs";
 import { convertDate, itemBuilder, parseRSS, parseRSSItems } from "./rssParser";
 
 const EXAMPLE_RSS = readFileSync("test-data/rss2sample.xml").toString();
 
 describe("Testing of pouchdb.", () => {
-  test("test put", async () => {
+  test("test put feed metadata", async () => {
     const parsed = parseRSS(EXAMPLE_RSS);
     await saveFeed(parsed).catch((r) => console.log(r));
   });
+  test("test put feed items", async () => {
+    const parsed = parseRSSItems(EXAMPLE_RSS);
+    await saveItems(parsed);
+  });
+
   test("test get", async () => {
-    await getAllDocs().then((r) => console.log(r.rows[0]));
-    await database.get("Liftoff News").then((r) => console.log(r));
+    await getAllDocs().then((r) => console.log(r.rows));
+    // await database.get("/feed/liftoff-news").then((r) => console.log(r));
   });
 });

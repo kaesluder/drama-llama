@@ -76,11 +76,12 @@ const itemBuilder = function (feedID: string, rawItem: object): Item {
     feedID: feedID,
     type: "item",
   };
-  // Known incompatibility between typescript and ramda.
-  // @ts-ignore
-  const transformerPipe = R.pipe(R.pickAll(properties), R.mergeLeft(newProps));
 
-  return transformerPipe(rawItem) as Item;
+  // typescript doesn't like R.mergeLeft so use the spread operator instead
+  // newProps overwrites the picked properties of rawItem. 
+  const newItem = {...<object>R.pickAll(properties, rawItem), ...newProps};
+
+  return newItem as Item;
 };
 
 export { parseRSS, convertDate, parseRSSItems, itemBuilder };

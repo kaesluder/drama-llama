@@ -18,6 +18,6 @@ describe("Testing of pouchdb.", () => {
 
   test("test get", async () => {
     await getAllDocs().then((r) => console.log(r.rows));
-    // await database.get("/feed/liftoff-news").then((r) => console.log(r));
+    await database.get("/feed/liftoff-news").then((r) => console.log(r));
   });
 });

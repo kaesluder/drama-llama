@@ -70,13 +70,13 @@ const parseRSSItems = function (xmlData: string): Item[] {
  */
 const itemBuilder = function (feedID: string, rawItem: object): Item {
   const properties = ["title", "link", "description", "author"];
-  // TODO: refactor with R.mergeLeft
-  const newProps: object = {
+  const newProps = {
     pubDate: convertDate(R.prop("pubDate", rawItem)),
     guid: R.or(R.prop("guid", rawItem), randomUUID()),
     feedID: feedID,
     type: "item",
   };
+  // Known incompatibility between typescript and ramda.
   // @ts-ignore
   const transformerPipe = R.pipe(R.pickAll(properties), R.mergeLeft(newProps));
 

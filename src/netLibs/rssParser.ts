@@ -36,6 +36,7 @@ const parseRSS = function (xmlData: string): Feed {
   // pickAll: copy all fields in the list, properties
   // assoc: set the feedType to RSS
   // timestamp: convert RFC2822 date to unix milliseconds
+  // TODO refactor as merge
   const timestamp = R.assoc("pubDate", convertDate(R.prop("pubDate", rawXML)));
   const transformerPipe = R.pipe(
     R.pickAll(properties),
@@ -72,7 +73,7 @@ const itemBuilder = function (feedID: string, rawItem: object): Item {
   const properties = ["title", "link", "description", "author"];
   const newProps = {
     pubDate: convertDate(R.prop("pubDate", rawItem)),
-    guid: R.or(R.prop("guid", rawItem), randomUUID()),
+    guid: R.prop("guid", rawItem) ?? randomUUID(),
     feedID: feedID,
     type: "item",
   };

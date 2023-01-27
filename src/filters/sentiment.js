@@ -6,7 +6,7 @@ const stemmer = function (text) {
 };
 
 const sentiment = function (text) {
-  const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'senticon');
+  const analyzer = new SentimentAnalyzer('English', PorterStemmer, 'afinn');
   const tokenizer = new WordTokenizer();
   return analyzer.getSentiment(tokenizer.tokenize(text));
 };

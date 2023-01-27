@@ -37,7 +37,10 @@ describe('Testing of pouchdb.', () => {
 
   test('test record update', async () => {
     const testPartial = { _id: '/feed/liftoff-news', testString: 'testing' };
-    updateRecord(testPartial);
-    await new Promise((r) => setTimeout(r, 500));
+    return updateRecord(testPartial).then((response) =>
+      expect(response.id).toBe(testPartial._id)
+    );
+
+    // await new Promise((r) => setTimeout(r, 500));
   });
 });

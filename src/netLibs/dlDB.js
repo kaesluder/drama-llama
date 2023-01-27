@@ -42,17 +42,9 @@ const mergeWithPartial = function (full, partial) {
 };
 
 const updateRecord = async function (partial) {
-  database
-    .get(partial._id)
-    .then(function (doc) {
-      return database.put(mergeWithPartial(doc, partial));
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (err) {
-      console.log(err);
-    });
+  return database.get(partial._id).then(function (doc) {
+    return database.put(mergeWithPartial(doc, partial));
+  });
 };
 
 export {

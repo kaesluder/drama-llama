@@ -42,16 +42,34 @@ US armed forces. You are nothing to me but just another target. `;
 
 console.log(sentiment(navySealMeme));
 
-const harrow = `The Saint of Patience was bent over a mirror above a wooden washstand, wearing a suit of antique make beneath his robe. You were grudgingly impressed by the sight of a historical artefact actually being worn: black trousers, black jacket, a plain white shirt with a high white collar, very starched. Augustine had combed his hair into a flat cap against his skull, faultless and shiny, with not a strand out of place. Within the collar sat a funny little black tie that was cut in a curve, and he was knotting it into a fat bow. `;
+const harrow = `The Saint of Patience was bent over a mirror above a 
+wooden washstand, wearing a suit of antique make beneath his robe. 
+You were grudgingly impressed by the sight of a historical artefact 
+actually being worn: black trousers, black jacket, a plain white 
+shirt with a high white collar, very starched. Augustine had combed 
+his hair into a flat cap against his skull, faultless and shiny, 
+with not a strand out of place. Within the collar sat a funny 
+little black tie that was cut in a curve, and he was knotting it 
+into a fat bow. `;
 
 console.log(sentiment(harrow));
 
 const apnews = `LOS ANGELES (AP) — In the course of 48 hours, two gunmen went on shooting rampages at both ends of California that left 18 dead and 10 wounded.
 
-The unrelated massacres at a dance hall in a Los Angeles suburb on Saturday night and a pair of mushroom farms south of San Francisco on Monday have dealt a blow to the state, which has some of the nation's toughest firearm laws and lowest rates of gun deaths. `;
+The unrelated massacres at a dance hall in a Los Angeles suburb on 
+Saturday night and a pair of mushroom farms south of San Francisco 
+on Monday have dealt a blow to the state, which has some of the 
+nation's toughest firearm laws and lowest rates of gun deaths. `;
 
 console.log(sentiment(apnews));
 
-const them = `In years past at the Oscars, we were lucky to get one LGBTQ+ film per category. In 2017, Moonlight stood apart from other Best Picture nominees, and in 2018, Call Me by Your Name occupied the queer lane. On years when the Academy has shown love to multiple LGBTQ+ releases, they’re often not very good — the 2019 nominations for Bohemian Rhapsody and Green Book come to mind — and then, of course, there are awards seasons where scarcely any queer cinema gets recognized.`;
+const them = `In years past at the Oscars, we were lucky to get one 
+LGBTQ+ film per category. In 2017, Moonlight stood apart from other 
+Best Picture nominees, and in 2018, Call Me by Your Name occupied 
+the queer lane. On years when the Academy has shown love to 
+multiple LGBTQ+ releases, they’re often not very good — the 2019 
+nominations for Bohemian Rhapsody and Green Book come to mind — and 
+then, of course, there are awards seasons where scarcely any queer 
+cinema gets recognized.`;
 
 console.log(sentiment(them));
